@@ -30,20 +30,20 @@ class Keyboard {
             val event = events.pop()
             when (event.action) {
                 GLFW_PRESS -> {
-                    pressedKeys.add(event.key)
-                    downKeys.add(event.key)
+                    pressedKeys.add(event.id)
+                    downKeys.add(event.id)
                 }
                 GLFW_RELEASE -> {
-                    releasedKeys.add(event.key)
-                    downKeys.remove(event.key)
+                    releasedKeys.add(event.id)
+                    downKeys.remove(event.id)
                 }
                 GLFW_REPEAT -> {
-                    repeatedKeys.add(event.key)
+                    repeatedKeys.add(event.id)
                 }
             }
         }
     }
 
-    private data class Event(val key: Int, val action: Int)
+    // private data class Event(val key: Int, val action: Int)
 
 }
