@@ -1,6 +1,6 @@
 package math.vectors
 
-import util.FloatUtils
+// import util.FloatUtils
 import kotlin.math.abs
 
 data class Vector4(var x: Float = 0.0f, var y: Float = 0.0f, var z: Float = 0.0f, var w: Float = 0.0f):

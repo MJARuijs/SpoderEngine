@@ -21,6 +21,10 @@ class Keyboard {
         }
     }
 
+    fun isKeyPressed(key: Int): Boolean {
+        return pressedKeys.contains(key)
+    }
+
     fun update() {
         pressedKeys.clear()
         releasedKeys.clear()
@@ -43,7 +47,5 @@ class Keyboard {
             }
         }
     }
-
-    // private data class Event(val key: Int, val action: Int)
 
 }

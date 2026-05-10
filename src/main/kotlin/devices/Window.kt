@@ -2,7 +2,6 @@ package devices
 
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFWErrorCallback
-import org.lwjgl.opengl.GL.createCapabilities
 import org.lwjgl.system.MemoryUtil.NULL
 
 class Window(title: String) {
@@ -16,7 +15,7 @@ class Window(title: String) {
     val aspectRatio: Float
         get() = width.toFloat() / height.toFloat()
 
-    private val handle: Long
+    val handle: Long
 
     init {
         GLFWErrorCallback.createPrint(System.err).set()
@@ -27,6 +26,10 @@ class Window(title: String) {
 
         glfwWindowHint(GLFW_DECORATED, GLFW_TRUE)
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API)
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4)
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3)
 
         handle = glfwCreateWindow(width, height, title, NULL, NULL)
         if (handle == NULL) {
@@ -39,7 +42,6 @@ class Window(title: String) {
         }
         glfwMakeContextCurrent(handle)
         glfwSwapInterval(1)
-        createCapabilities()
 
         glfwShowWindow(handle)
     }

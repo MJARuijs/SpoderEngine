@@ -107,17 +107,14 @@ class Mouse {
         while (events.isNotEmpty()) {
             val event = events.pop()
             when (event.action) {
-            
                 GLFW_PRESS -> {
-                    pressed.add(event.button)
-                    down.add(event.button)
+                    pressed.add(event.id)
+                    down.add(event.id)
                 }
-            
                 GLFW_RELEASE -> {
-                    released.add(event.button)
-                    down.remove(event.button)
+                    released.add(event.id)
+                    down.remove(event.id)
                 }
-            
                 GLFW_REPEAT -> {
                     // ignore
                 }
