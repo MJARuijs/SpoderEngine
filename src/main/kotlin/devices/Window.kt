@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryUtil.NULL
 
-class Window(title: String) {
+class Window(title: String, private val onWindowResized: (Int, Int) -> Unit = { _, _ ->  }) {
 
     var width = 1280
         private set
@@ -37,8 +37,10 @@ class Window(title: String) {
         }
 
         glfwSetWindowSizeCallback(handle) { _, newWidth: Int, newHeight: Int -> 
+            // println("Window Resized $newWidth $newHeight")
             width = newWidth
             height = newHeight
+            onWindowResized(width, height)
         }
         glfwMakeContextCurrent(handle)
         glfwSwapInterval(1)

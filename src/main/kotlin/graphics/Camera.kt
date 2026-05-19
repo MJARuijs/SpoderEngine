@@ -8,16 +8,16 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.tan
 
-class Camera(var position: Vector3 = Vector3(),
+class Camera(var aspectRatio: () -> Float,
+             var position: Vector3 = Vector3(),
              var rotation: Vector3 = Vector3(),
              var fov: Float = 70.0f, 
-             var aspectRatio: Float = 1.0f, 
              var zNear: Float = 0.01f, 
              var zFar: Float = 1000.0f) {
 
     val projectionMatrix: Matrix4
         get() = Matrix4(floatArrayOf(
-            1.0f / (aspectRatio * tan((PI.toFloat() / 180.0f) * fov / 2.0f)), 0.0f, 0.0f, 0.0f,
+            1.0f / (aspectRatio() * tan((PI.toFloat() / 180.0f) * fov / 2.0f)), 0.0f, 0.0f, 0.0f,
                 0.0f, 1.0f / tan((PI.toFloat() / 180.0f) * fov / 2.0f), 0.0f, 0.0f,
                 0.0f, 0.0f, -(zFar + zNear) / (zFar - zNear), -(2.0f * zFar * zNear) / (zFar - zNear),
                 0.0f, 0.0f, -1.0f, 0.0f
@@ -32,16 +32,15 @@ class Camera(var position: Vector3 = Vector3(),
         get() = Matrix4().rotateY(-rotation.y).rotateX(-rotation.x)
 
 
-    fun update(downKeys: HashSet<Int>, mouseX: Float, mouseY: Float, delta: Float) {
-
+    fun update(downKeys: HashSet<Int>, mouseX: Double, mouseY: Double, delta: Double) {
         val translation = Vector3()
 
         val mouseSpeed = 1.75f
         var moveSpeed = 5.0f
 
 
-        if (downKeys.contains(GLFW.GLFW_KEY_LEFT_CONTROL)) {
-            moveSpeed = 100.0f
+        if (downKeys.contains(GLFW.GLFW_KEY_LEFT_SHIFT)) {
+            moveSpeed = 10.0f
         }
 
         if (downKeys.contains(GLFW.GLFW_KEY_W)) {
@@ -60,22 +59,22 @@ class Camera(var position: Vector3 = Vector3(),
             translation.x += 1.0f
         }
 
+        if (downKeys.contains(GLFW.GLFW_KEY_LEFT_CONTROL)) {
+            translation.y += 1.0f
+        }
+
         if (downKeys.contains(GLFW.GLFW_KEY_SPACE)) {
             translation.y -= 1.0f
         }
 
-        if (downKeys.contains(GLFW.GLFW_KEY_SPACE)) {
-            translation.y += 1.0f
-        }
-
         if (translation.length() > 0.0f) {
             val rotationMatrix = Matrix4().rotateY(-rotation.y)
-            position += rotationMatrix.dot(-translation.unit()) * delta * moveSpeed
+            position += rotationMatrix.dot(-translation.unit()) * delta.toFloat() * moveSpeed
         }
 
-        rotation.x = (-mouseY * mouseSpeed) % (2.0f * PI.toFloat())
+        rotation.x = (-mouseY.toFloat() * mouseSpeed) % (2.0f * PI.toFloat())
         rotation.x = min(max(-PI.toFloat() / 2.0f, rotation.x), PI.toFloat() / 2.0f)
-        rotation.y = (mouseX * mouseSpeed) % (2.0f * PI.toFloat())
+        rotation.y = (mouseX.toFloat() * mouseSpeed) % (2.0f * PI.toFloat())
     }
 
 }

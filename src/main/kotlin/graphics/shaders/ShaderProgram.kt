@@ -1,5 +1,6 @@
 package graphics.shaders
 
+import math.Color
 import math.vectors.Vector2
 import math.vectors.Vector3
 import math.vectors.Vector4
@@ -69,6 +70,6 @@ class ShaderProgram(shaders: List<Shader>) {
     fun set(name: String, matrix: Matrix4) = set(name, true, matrix.elements, ::glUniformMatrix4fv)
 
     fun set(name: String, value: Boolean) = set(name, if (value) 1 else 0)
-    // fun set(name: String, color: Color) = set(name, color.toArray(), ::glUniform4fv)
+    fun set(name: String, color: Color) = set(name, color.toArray(), ::glUniform4fv)
     // fun set(name: String, sampler: Sampler) = set(name, sampler.index)
 }

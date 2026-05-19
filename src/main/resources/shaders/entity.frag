@@ -1,15 +1,33 @@
 #version 450
 
-layout(location = 0) in vec3 inPosition;
+struct AmbientLight {
+    vec4 color;
+};
 
-uniform mat4 projection;
-uniform mat4 view;
-uniform mat4 model;
+struct DirectionalLight {
+    vec4 color;
+    vec3 direction;
+};
 
-out vec4 worldPosition;
+struct Material {
+    vec4 diffuse;
+    vec4 specular;
+    float shininess;
+};
+
+in vec3 passNormal;
+
+uniform AmbientLight ambient;
+uniform DirectionalLight directional;
+uniform Material material;
+
+out vec4 outColor;
 
 void main() {
-    worldPosition = model * vec4(inPosition, 1.0);
 
-    gl_Position = projection * view * worldPosition;
+    vec4 ambientColor = material.diffuse * ambient.color;
+    vec4 sunColor = material.diffuse * dot(passNormal, directional.direction);
+
+    outColor = ambientColor + sunColor;
+
 }

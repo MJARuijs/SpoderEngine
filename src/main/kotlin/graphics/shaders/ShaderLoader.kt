@@ -3,6 +3,7 @@ package graphics.shaders
 import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER
 import util.File
+import graphics.shaders.ShaderLoader
 
 class ShaderLoader {
 
@@ -22,5 +23,18 @@ class ShaderLoader {
 
         file.getLines().forEach { line -> source += "$line\n" }
         return Shader(getType(file), source)
-    }	
+    }
+
+    companion object {
+        private var instance: ShaderLoader? = null
+
+        fun getInstance(): ShaderLoader {
+            if (instance == null) {
+                instance = ShaderLoader() 
+            }
+
+            return instance!!
+        }
+
+    }
 }

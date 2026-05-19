@@ -13,7 +13,7 @@ class Keyboard {
     private val pressedKeys = HashSet<Int>()
     private val releasedKeys = HashSet<Int>()
     private val repeatedKeys = HashSet<Int>()
-    private val downKeys = HashSet<Int>()
+    val downKeys = HashSet<Int>()
 
     fun attachToWindow(windowHandle: Long) {
         glfwSetKeyCallback(windowHandle) { _, key: Int, _, action: Int, _ ->
