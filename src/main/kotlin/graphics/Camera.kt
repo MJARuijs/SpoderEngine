@@ -32,12 +32,11 @@ class Camera(var aspectRatio: () -> Float,
         get() = Matrix4().rotateY(-rotation.y).rotateX(-rotation.x)
 
 
-    fun update(downKeys: HashSet<Int>, mouseX: Double, mouseY: Double, delta: Double) {
+    fun update(downKeys: HashSet<Int>, mouseXDelta: Double, mouseYDelta: Double, delta: Double) {
         val translation = Vector3()
 
         val mouseSpeed = 1.75f
         var moveSpeed = 5.0f
-
 
         if (downKeys.contains(GLFW.GLFW_KEY_LEFT_SHIFT)) {
             moveSpeed = 10.0f
@@ -72,9 +71,9 @@ class Camera(var aspectRatio: () -> Float,
             position += rotationMatrix.dot(-translation.unit()) * delta.toFloat() * moveSpeed
         }
 
-        rotation.x = (-mouseY.toFloat() * mouseSpeed) % (2.0f * PI.toFloat())
+        rotation.x += (-mouseYDelta.toFloat() * mouseSpeed) % (2.0f * PI.toFloat())
         rotation.x = min(max(-PI.toFloat() / 2.0f, rotation.x), PI.toFloat() / 2.0f)
-        rotation.y = (mouseX.toFloat() * mouseSpeed) % (2.0f * PI.toFloat())
+        rotation.y += (mouseXDelta.toFloat() * mouseSpeed) % (2.0f * PI.toFloat())
     }
 
 }

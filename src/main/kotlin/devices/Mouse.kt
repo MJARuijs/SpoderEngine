@@ -97,7 +97,7 @@ class Mouse {
     fun update() {
         pressed.clear()
         released.clear()
-        
+
         xScroll = 0.0
         yScroll = 0.0
 

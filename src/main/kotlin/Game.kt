@@ -35,7 +35,7 @@ class Game {
     private val box = modelLoader.load("models/box.dae")
 
     private val ambientLight = AmbientLight(Color(0.25f, 0.25f, 0.25f))
-    private val sun = DirectionalLight(Color(1.0f, 1.0f, 1.0f), Vector3(1.0f, 1.0f, 1.0f))
+    private val sun = DirectionalLight(Color(1.0f, 1.0f, 1.0f), Vector3(0.5f, 0.25f, 1.0f))
 
     fun onResize(w: Int, h: Int) {
         GraphicsContext.getInstance().resize(w, h)
@@ -56,7 +56,7 @@ class Game {
                 window.close()
             }
 
-            camera.update(keyboard.downKeys, mouse.x, mouse.y, timer.delta)
+            camera.update(keyboard.downKeys, mouse.dx, mouse.dy, timer.delta)
 
             entityProgram.start()
             entityProgram.set("projection", camera.projectionMatrix)
